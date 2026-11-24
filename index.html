@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNbits Wallet</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ LNbits Wallet</h1>
+            <div class="balance-card">
+                <span class="balance-label">Balance</span>
+                <span class="balance-value" id="balance">Loading...</span>
+                <span class="balance-unit">sats</span>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="receive">Receive</button>
+            <button class="tab-btn" data-tab="send">Send</button>
+            <button class="tab-btn" data-tab="history">History</button>
+        </nav>
+
+        <!-- Receive Tab -->
+        <section id="receive" class="tab-content active">
+            <div class="card">
+                <h2>Create Invoice</h2>
+                <div class="form-group">
+                    <label for="recv-amount">Amount (sats)</label>
+                    <input type="number" id="recv-amount" placeholder="1000" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="recv-memo">Memo (description)</label>
+                    <input type="text" id="recv-memo" placeholder="Payment for..." maxlength="200">
+                </div>
+                <button class="btn btn-primary" id="btn-create" onclick="createInvoice()">Create Invoice</button>
+
+                <div id="invoice-result" class="result hidden">
+                    <div class="qr-container">
+                        <div id="qrcode"></div>
+                    </div>
+                    <div class="invoice-string">
+                        <label>Lightning Invoice</label>
+                        <textarea id="invoice-text" readonly rows="3"></textarea>
+                        <button class="btn btn-secondary" onclick="copyInvoice()">Copy</button>
+                    </div>
+                    <div class="payment-status" id="payment-status"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Send Tab -->
+        <section id="send" class="tab-content">
+            <div class="card">
+                <h2>Pay Invoice</h2>
+                <div class="form-group">
+                    <label for="send-invoice">Paste Lightning Invoice (bolt11)</label>
+                    <textarea id="send-invoice" rows="4" placeholder="lnbc1..."></textarea>
+                </div>
+                <button class="btn btn-secondary" id="btn-scan" type="button" onclick="startQrScanner()">Scan QR with camera</button>
+                <div id="scanner" class="scanner hidden">
+                    <video id="scanner-video" playsinline muted aria-label="Camera view for scanning a QR code"></video>
+                    <p id="scanner-status" class="scanner-status" role="status">Point your camera at a Lightning invoice QR code.</p>
+                    <button class="btn btn-secondary" id="btn-stop-scan" type="button" onclick="stopQrScanner()">Stop camera</button>
+                </div>
+                <button class="btn btn-secondary" id="btn-decode" onclick="decodeInvoice()">Decode Invoice</button>
+
+                <div id="decode-result" class="result hidden">
+                    <div class="decode-info">
+                        <div class="info-row">
+                            <span>Amount:</span>
+                            <strong id="decode-amount">-</strong>
+                        </div>
+                        <div class="info-row">
+                            <span>Description:</span>
+                            <span id="decode-memo">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Expiry:</span>
+                            <span id="decode-expiry">-</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="btn-pay" onclick="payInvoice()">Pay Invoice</button>
+                </div>
+
+                <div id="pay-result" class="result hidden"></div>
+            </div>
+        </section>
+
+        <!-- History Tab -->
+        <section id="history" class="tab-content">
+            <div class="card">
+                <h2>Transaction History</h2>
+                <button class="btn btn-secondary btn-refresh" onclick="loadHistory()">Refresh</button>
+                <div id="history-list" class="history-list">
+                    <p class="empty">Loading transactions...</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Connected to LNbits via local proxy</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="jsQR.min.js"></script>
+    <script>
+        if (typeof window.jsQR !== 'function') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"><\/script>');
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

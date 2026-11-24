@@ -1,0 +1,598 @@
+/* ==========================================================
+   LNbits Wallet — "Hard Money" theme
+   Black base, Bitcoin orange accent, monospace numerals,
+   sharp edges, no gradients, no fluff.
+   ========================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --btc: #f7931a;
+    --btc-dim: #b86a0c;
+    --btc-glow: rgba(247, 147, 26, 0.18);
+    --bg: #000000;
+    --surface: #0d0d0d;
+    --surface-2: #161616;
+    --border: #262626;
+    --border-hi: #3a3a3a;
+    --text: #f2f2f2;
+    --text-dim: #8c8c8c;
+    --success: #f7931a;
+    /* incoming sats are orange, not green */
+    --error: #ff4d4d;
+    --warning: #f7931a;
+    --mono: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', 'Courier New', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+::selection {
+    background: var(--btc);
+    color: #000;
+}
+
+body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+        linear-gradient(rgba(247, 147, 26, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(247, 147, 26, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 20px;
+}
+
+/* ---------- Header ---------- */
+header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+header h1 {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: var(--btc);
+}
+
+.balance-card {
+    background: var(--surface);
+    color: var(--text);
+    padding: 28px 24px;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--btc);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 40px var(--btc-glow);
+}
+
+.balance-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+}
+
+.balance-value {
+    font-family: var(--mono);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 6px 0;
+    color: var(--btc);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.balance-unit {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+}
+
+/* ---------- Tabs ---------- */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 8px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    margin-bottom: -1px;
+}
+
+.tab-btn:hover {
+    color: var(--text);
+}
+
+.tab-btn.active {
+    color: var(--btc);
+    border-bottom-color: var(--btc);
+}
+
+.tab-btn:focus-visible,
+.btn:focus-visible {
+    outline: 1px solid var(--btc);
+    outline-offset: 3px;
+}
+
+/* ---------- Tab content ---------- */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ---------- Cards ---------- */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.card h2 {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* ---------- Forms ---------- */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: #000;
+    color: var(--text);
+    border: 1px solid var(--border-hi);
+    border-radius: 2px;
+    font-size: 1rem;
+    font-family: var(--mono);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #4a4a4a;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--btc);
+    box-shadow: 0 0 0 1px var(--btc), 0 0 16px var(--btc-glow);
+}
+
+/* Hide number spinners for a cleaner sats input */
+.form-group input[type=number]::-webkit-inner-spin-button,
+.form-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-group input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+    margin-top: 8px;
+}
+
+.btn-primary {
+    background: var(--btc);
+    color: #000;
+}
+
+.btn-primary:hover {
+    background: #ffa640;
+    box-shadow: 0 0 24px var(--btc-glow);
+}
+
+.btn-primary:active {
+    background: var(--btc-dim);
+}
+
+.btn-primary:disabled {
+    background: #3a2a14;
+    color: #6b5a40;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--btc);
+    border-color: var(--btc-dim);
+}
+
+.btn-secondary:hover {
+    background: var(--btc-glow);
+    border-color: var(--btc);
+}
+
+.btn-secondary:disabled {
+    cursor: wait;
+    opacity: 0.5;
+}
+
+.btn-refresh {
+    width: auto;
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+/* ---------- QR scanner ---------- */
+.scanner {
+    margin-top: 16px;
+    padding: 12px;
+    border: 1px solid var(--border-hi);
+    border-radius: 2px;
+    background: #000;
+}
+
+.scanner.hidden {
+    display: none;
+}
+
+.scanner video {
+    display: block;
+    width: 100%;
+    max-height: 60vh;
+    object-fit: cover;
+    border-radius: 2px;
+    background: #111;
+}
+
+.scanner-status {
+    padding: 10px 0 2px;
+    text-align: center;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+}
+
+/* ---------- Results ---------- */
+.result {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--border-hi);
+}
+
+.result.hidden {
+    display: none;
+}
+
+/* QR stays on pure white for scanner contrast */
+.qr-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 2px;
+}
+
+#qrcode img,
+#qrcode canvas {
+    display: block;
+    margin: 0 auto;
+}
+
+.invoice-string {
+    margin-bottom: 16px;
+}
+
+.invoice-string label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+}
+
+.invoice-string textarea {
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    color: var(--btc);
+    border: 1px solid var(--border-hi);
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    resize: none;
+    margin-bottom: 8px;
+    word-break: break-all;
+}
+
+/* ---------- Decode info ---------- */
+.decode-info {
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 4px 16px;
+    margin-bottom: 16px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.875rem;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row span:first-child {
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding-top: 2px;
+}
+
+.info-row strong {
+    color: var(--btc);
+}
+
+/* ---------- Payment status ---------- */
+.payment-status {
+    text-align: center;
+    padding: 12px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 12px;
+    word-break: break-all;
+}
+
+.payment-status.pending {
+    background: transparent;
+    color: var(--btc);
+    border-color: var(--btc-dim);
+    animation: pulse 1.6s ease-in-out infinite;
+}
+
+.payment-status.paid {
+    background: var(--btc);
+    color: #000;
+    border-color: var(--btc);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.55;
+    }
+}
+
+/* ---------- History ---------- */
+.history-list {
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.history-memo {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-date {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+    letter-spacing: 0.03em;
+}
+
+.history-amount {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+}
+
+.history-amount.incoming {
+    color: var(--btc);
+}
+
+.history-amount.outgoing {
+    color: var(--text);
+}
+
+.empty {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 40px 0;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #000;
+    color: var(--text);
+    border: 1px solid var(--border-hi);
+    border-left: 3px solid var(--text-dim);
+    padding: 12px 20px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    max-width: calc(100% - 40px);
+    text-align: center;
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast.success {
+    border-left-color: var(--btc);
+    box-shadow: 0 0 24px var(--btc-glow);
+}
+
+.toast.error {
+    border-left-color: var(--error);
+}
+
+/* ---------- Footer ---------- */
+footer {
+    text-align: center;
+    padding: 24px 20px 12px;
+    font-family: var(--mono);
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    .container {
+        padding: 14px 12px;
+    }
+
+    .balance-value {
+        font-size: 2.25rem;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .tab-btn {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+    }
+}
